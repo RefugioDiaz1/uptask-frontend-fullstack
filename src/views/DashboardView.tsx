@@ -16,7 +16,7 @@ export default function DashboardView() {
   
   if (error) {
     toast.error(error.message);
-    return <p>Error al cargar</p>;
+    return <p>{error.message}</p>;
   }
 
   if (data) return (

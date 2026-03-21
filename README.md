@@ -150,3 +150,11 @@ npm i @tanstack/react-query
 en react, cuando se le agregue el key, cuando actualizamos se queda el valor anterior, hasta que se actualiza la pagina se visualiza normal, esto es debido porque usa la cache
 
 npm i @tanstack/react-query-devtools
+
+crear sitios que soporten multiples idiomas
+react-i18next
+
+
+para ingresar codigo de 6 digitos, dependencia
+
+npm i @chakra-ui/pin-input

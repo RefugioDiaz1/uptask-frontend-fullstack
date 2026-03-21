@@ -23,7 +23,7 @@ export default function EditTaskModal({data, taskId}: EditTaskModalProps) {
     const params = useParams()
     const projectId = params.projectId!
 
-    const {register, handleSubmit, reset, formState: {errors}} = useForm<TaskFormData>({defaultValues: {
+    const {register, handleSubmit, reset, formState: {errors, isDirty}} = useForm<TaskFormData>({defaultValues: {
         name: data.name,
         description: data.description
     }})
@@ -34,7 +34,8 @@ export default function EditTaskModal({data, taskId}: EditTaskModalProps) {
              toast.error(error.message)
         },
         onSuccess: (data)=>{
-            queryClient.invalidateQueries({queryKey: ['editProject', projectId]})
+            queryClient.invalidateQueries({queryKey: ['project', projectId]})
+            queryClient.invalidateQueries({queryKey: ['task', taskId]})
             toast.success(data)
             reset()
             navigate(location.pathname,{
@@ -44,6 +45,12 @@ export default function EditTaskModal({data, taskId}: EditTaskModalProps) {
     })
 
     const handleEditTask = (formData: TaskFormData) => {
+
+        if(!isDirty)
+        {
+            toast.warning('No realizaste ningún cambio')
+            return
+        }
 
         const data = {
             projectId,

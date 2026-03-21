@@ -19,7 +19,7 @@ export default function EditProjectForm({ data, projectId }: PropsDataProject) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isDirty },
   } = useForm({
     defaultValues: {
       projectName: data.projectName,
@@ -43,6 +43,12 @@ export default function EditProjectForm({ data, projectId }: PropsDataProject) {
   });
 
   const handleForm = (formData: ProjectFormData) => {
+    
+    if(!isDirty) {
+        toast.warning('No realizaste ningún cambio')
+        return
+    }
+
     const data = {
       formData,
       projectId,

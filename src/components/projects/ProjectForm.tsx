@@ -12,7 +12,6 @@ interface ProjectFormProps {
 
 export default function ProjectForm({errors, register}:ProjectFormProps) {
 
-
     return (
         <>
             <div className="mb-5 space-y-3">
@@ -26,9 +25,10 @@ export default function ProjectForm({errors, register}:ProjectFormProps) {
                     placeholder="Nombre del Proyecto"
                     {...register("projectName", {
                         required: "El Titulo del Proyecto es obligatorio",
+                        validate: value => value.trim() !== '' ? true : "El titulo del proyecto es obligatorio"
                     })}
                 />
-
+                    
                 {errors.projectName && (
                     <ErrorMessage>{errors.projectName.message}</ErrorMessage>
                 )}
@@ -45,6 +45,7 @@ export default function ProjectForm({errors, register}:ProjectFormProps) {
                     placeholder="Nombre del Cliente"
                     {...register("clientName", {
                         required: "El Nombre del Cliente es obligatorio",
+                        validate: value => value.trim() !== '' ? true : "El nombre del cliente es obligatorio"
                     })}
                 />
 
@@ -62,7 +63,8 @@ export default function ProjectForm({errors, register}:ProjectFormProps) {
                     className="w-full p-3  border border-gray-200"
                     placeholder="Descripción del Proyecto"
                     {...register("description", {
-                        required: "Una descripción del proyecto es obligatoria"
+                        required: "Una descripción del proyecto es obligatoria",
+                        validate: value => value.trim() !== '' ? true : "La descripción del proyecto es obligatoria"
                     })}
                 />
 

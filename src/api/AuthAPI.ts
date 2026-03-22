@@ -1,5 +1,5 @@
 import api from '@/lib/axios'
-import type { ConfirmToken, ForgotPasswordForm, RequestConfirmationCodeForm, UserLoginForm, UserRegistrationForm } from '../types'
+import type { ConfirmToken, ForgotPasswordForm, NewPasswordForm, RequestConfirmationCodeForm, UserLoginForm, UserRegistrationForm } from '../types'
 import { getErrorMessage } from '@/lib/handleError'
 
 export async function createAccount(formData: UserRegistrationForm){
@@ -50,6 +50,28 @@ export async function forGotPassword(formData: ForgotPasswordForm){
 
     try {
         const URL = `/auth/forgot-password`
+        const {data} = await api.post<string>(URL,formData)
+        return data
+    } catch (error) {
+        throw new Error(getErrorMessage(error))
+    }
+}
+
+export async function validateToken(formData: ConfirmToken){
+
+    try {
+        const URL = `/auth/validate-token`
+        const {data} = await api.post<string>(URL,formData)
+        return data
+    } catch (error) {
+        throw new Error(getErrorMessage(error))
+    }
+}
+
+export async function updatePasswordWithToken({formData, token}: {formData : NewPasswordForm, token: ConfirmToken['token']}){
+
+    try {
+        const URL = `/auth/update-password/${token}`
         const {data} = await api.post<string>(URL,formData)
         return data
     } catch (error) {

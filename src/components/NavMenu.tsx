@@ -2,8 +2,22 @@ import { Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { Bars3Icon } from "@heroicons/react/20/solid";
 import { Link } from "react-router-dom";
+import type {User} from '@/types/index'
+import { useQueryClient } from "@tanstack/react-query";
 
-export default function NavMenu() {
+interface NavMenuProps {
+  name: User['name']
+}
+
+export default function NavMenu({name}: NavMenuProps) {
+
+  const queryClient= useQueryClient()
+
+  const logout = ()=>{
+    localStorage.removeItem('AUTH_TOKEN')
+    queryClient.invalidateQueries({queryKey: ['user']})
+  }
+
   return (
     <Popover className="relative">
       <Popover.Button className="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 p-1 rounded-lg bg-purple-400">
@@ -21,7 +35,7 @@ export default function NavMenu() {
       >
         <Popover.Panel className="absolute left-1/2 z-10 mt-5 flex w-screen lg:max-w-min -translate-x-1/2 lg:-translate-x-48">
           <div className="w-full cursor:pointer lg:w-56 shrink rounded-xl bg-white p-4 text-sm font-semibold leading-6 text-gray-900 shadow-lg ring-1 ring-gray-900/5">
-            <p className="text-center">Hola: Usuario</p>
+            <p className="text-center">Hola: {name}</p>
             <Link
               to="/profile"
               className="block p-2 rounded-md transition-colors duration-200 hover:bg-purple-100 hover:text-purple-900"
@@ -39,7 +53,7 @@ export default function NavMenu() {
             <button
               className="block w-full text-left p-2 rounded-md transition-colors duration-200 hover:bg-red-100 hover:text-red-700"
               type="button"
-              onClick={() => {}}
+              onClick={logout}
             >
               Cerrar Sesión
             </button>

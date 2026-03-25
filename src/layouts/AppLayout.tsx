@@ -1,11 +1,20 @@
-import { Link, Outlet} from 'react-router-dom'
+import { Link, Outlet, Navigate} from 'react-router-dom'
 import Logo from '@/components/Logo'
 import NavMenu from '@/components/NavMenu'
 import {ToastContainer} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { useAuth } from '@/hooks/useAuth'
 
 export default function AppLayout() {
-  return (
+
+    const { data, isError, isLoading} = useAuth()
+
+    if(isLoading) return 'Cargando...'
+    if(isError){
+        return <Navigate to='/auth/login' />
+    }
+
+  if(data) return (
     <>
         <header className='bg-gray-800 py-5 '>
             <div className='max-w-screen-2xl mx-auto flex flex-col lg:flex-row justify-between items-center'>
@@ -15,7 +24,8 @@ export default function AppLayout() {
                     <Logo />
                     </Link>
                 </div>
-                <NavMenu />
+                <NavMenu 
+                    name={data.name} /> 
             </div>
         </header>
 
@@ -25,7 +35,7 @@ export default function AppLayout() {
        
        <footer className='py-5'>
             <p className='text-center'>
-               Todos los derechos Reservados {new Date().getFullYear()} 
+               Todos los derechos Reservados {new Date().getFullYear()} <b>Refugio Diaz</b>
             </p>
        </footer>
        <ToastContainer 

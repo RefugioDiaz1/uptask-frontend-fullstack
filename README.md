@@ -158,3 +158,8 @@ react-i18next
 para ingresar codigo de 6 digitos, dependencia
 
 npm i @chakra-ui/pin-input
+
+interceptor de axios es una funcion que se ejecuta antes o despues de una peticion de http
+interceptores de respuesta se ejecuta despues de una peticion http, para procesar una respuesta
+
+

@@ -8,22 +8,22 @@ import { toast } from "react-toastify";
 
 export default function LoginView() {
     
-    const navigate = useNavigate()
+  const navigate = useNavigate()
     
   const initialValues: UserLoginForm = {
     email: '',
     password: '',
   }
-  const { register, reset, handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues })
+  const { register,  handleSubmit, formState: { errors } } = useForm({ defaultValues: initialValues })
 
   const { mutate} = useMutation({
     mutationFn: authenticateUser,
     onError:(error)=>{
         toast.error(error.message)
     },
-    onSuccess:(data)=>{
-        toast.success(data)
-        reset()
+    onSuccess:()=>{
+        //toast.success('Iniciando Sesión...')
+        //reset()
         navigate('/')
     }
   })

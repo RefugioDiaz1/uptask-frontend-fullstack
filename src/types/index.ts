@@ -29,6 +29,18 @@ export const userSchema = authSchema.pick({
 
 export type User = z.infer<typeof userSchema>
 
+
+/** Notes */
+const noteShema = z.object({
+        _id: z.string(),
+        content: z.string(),
+        createBy: userSchema,
+        task: z.string()
+})
+
+export type Note = z.infer<typeof noteShema>
+export type NoteFormData = Pick<Note, 'content'>
+
 /** Tasks */
 export const taskStatusSchema = z.enum(["pending" , "onHold" ,"inProgress" , "underReview" , "completed"])
 export type TaskStatus = z.infer<typeof taskStatusSchema>  
@@ -40,8 +52,15 @@ export const taskSchema = z.object(
         description: z.string(),
         project: z.string(),
         status: taskStatusSchema,
+        completedBy: z.array(z.object(
+            {   
+                _id: z.string(),
+                user: userSchema,
+                status: taskStatusSchema
+            }
+        )),
         createdAt: z.string(),
-        updatedAt: z.string()
+        updatedAt: z.string(),
     }
 )
 
@@ -56,6 +75,10 @@ export const projectSchema = z.object(
         clientName: z.string(),
         projectName: z.string(),
         description: z.string(),
+        tasks: z.array(taskSchema),
+        
+        //manager: z.string(userSchema.pick({_id :true} ))
+        manager: z.string()
     }
 )
 
@@ -64,13 +87,33 @@ export const dashboardProjectSchema = z.array(
         _id: true,
         projectName: true,
         clientName:true,
-        description: true
+        description: true,
+        manager:true
     })
 )
 
+export type projectType = Pick<Project, '_id' | 'projectName' | 'clientName' | 'description' | 'manager'>
 export type Project = z.infer<typeof projectSchema>
 export type ProjectFormData = Pick<Project, 'clientName' | 'projectName' | 'description'>
 
 
 //Se puede usar Omit pero si crece el shema entonces entonces que agregar todo lo que quiero omitir, por eso el pick para indicar
 //Que solo tales campos usare
+
+
+
+/** Team */
+export const teamMemberSchema = userSchema.pick({
+    name: true,
+    email: true,
+    _id: true
+})
+
+export const teamMemberSchemaArray = z.array(
+    teamMemberSchema
+)
+
+export const teamMemberFormSchema = z.array(teamMemberSchema)
+export type TeamMember = z.infer<typeof teamMemberSchema>
+export type TeamMemberForm = Pick<TeamMember, 'email'>
+

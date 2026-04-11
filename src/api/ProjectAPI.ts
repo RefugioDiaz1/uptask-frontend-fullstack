@@ -1,6 +1,6 @@
 import api from "@/lib/axios";
 import { getErrorMessage } from "@/lib/handleError";
-import { dashboardProjectSchema, type Project, type ProjectFormData } from "@/types/index";
+import { dashboardProjectSchema, projectSchema, type Project, type ProjectFormData } from "@/types/index";
 
 
 export async function createProject(formData:ProjectFormData){
@@ -32,12 +32,13 @@ export async function getProjectById(id:Project['_id']){
      
     try {
         const {data} = await api.get(`/projects/${id}`)
-        // const response = projectSchema.safeParse(data)
         
-        // if (response.success) {
-        //     return response.data
-        // } 
-        return data
+        const response = projectSchema.safeParse(data)
+        if (response.success) {
+            return response.data
+        } else {
+            throw new Error('Invalid project data received from server')
+        }
     } catch (error) {
        
         throw new Error(getErrorMessage(error))

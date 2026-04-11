@@ -7,10 +7,11 @@ import { Fragment } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 type TaskCardProps = {
-  task: Task;
+  task: Task
+  canEdit: boolean
 };
 
-export default function TaskCard({ task }: TaskCardProps) {
+export default function TaskCard({ task,canEdit }: TaskCardProps) {
   const navigate = useNavigate();
   const params = useParams();
   const projectId = params.projectId!;
@@ -65,7 +66,9 @@ export default function TaskCard({ task }: TaskCardProps) {
                   Ver Tarea
                 </button>
               </Menu.Item>
-              <Menu.Item>
+              {canEdit && (
+                <>
+                <Menu.Item>
                 <button
                   type="button"
                   className="block px-3 py-1 text-sm leading-6 text-gray-900"
@@ -86,6 +89,10 @@ export default function TaskCard({ task }: TaskCardProps) {
                   Eliminar Tarea
                 </button>
               </Menu.Item>
+                </>
+
+              )}
+              
             </Menu.Items>
           </Transition>
         </Menu>

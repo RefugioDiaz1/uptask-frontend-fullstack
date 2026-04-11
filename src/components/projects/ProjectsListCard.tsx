@@ -1,20 +1,22 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
-import type { Project } from "@/types/index";
+import type {   projectType, User} from "@/types/index";
 import { Link } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteProject } from "@/api/ProjectAPI";
 import { toast } from "react-toastify";
+import { isManager } from "@/utils/policies";
 
 type PropsProjectsDetail = {
-  project: Project;
+  project: projectType
+  user: User
 };
 
-export default function ProjectListCard({ project }: PropsProjectsDetail) {
+export default function ProjectListCard({ project, user }: PropsProjectsDetail) {
 
        
-        const queryClient = useQueryClient();
+      const queryClient = useQueryClient();
         
       const {mutate} = useMutation({
         mutationFn: deleteProject,
@@ -36,6 +38,13 @@ export default function ProjectListCard({ project }: PropsProjectsDetail) {
     >
       <div className="flex min-w-0 gap-x-4">
         <div className="min-w-0 flex-auto space-y-2">
+          <div className="mb-2">
+          {isManager(project.manager, user._id)
+             ? 
+            <p className="font-bold text-xs uppercase bg-indigo-50 text-indigo-500 border-2 border-indigo-500 rounded-lg inline-block py-1 px-5">Maganer</p> : 
+            <p className="font-bold text-xs uppercase bg-green-50 text-green-500 border-2 border-green-500 rounded-lg inline-block py-1 px-5">Colaborador</p>
+          }
+          </div>
           <Link
             to={`/projects/${project._id}`}
             className="text-gray-600 hover:text-indigo-600 hover:underline text-3xl font-bold transition-colors"
@@ -75,7 +84,10 @@ export default function ProjectListCard({ project }: PropsProjectsDetail) {
                 )}
               </Menu.Item>
 
-              <Menu.Item>
+                {isManager(project.manager, user._id) && (
+
+                  <>
+                    <Menu.Item>
                 {({ active }) => (
                   <Link
                     to={`/projects/${project._id}/edit`}
@@ -101,6 +113,12 @@ export default function ProjectListCard({ project }: PropsProjectsDetail) {
                   </button>
                 )}
               </Menu.Item>
+                  
+                  </>
+
+                )}
+                
+              
             </Menu.Items>
           </Transition>
         </Menu>

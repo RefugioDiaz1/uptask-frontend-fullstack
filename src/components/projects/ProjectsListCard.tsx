@@ -2,10 +2,8 @@ import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
 import type {   projectType, User} from "@/types/index";
-import { Link } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteProject } from "@/api/ProjectAPI";
-import { toast } from "react-toastify";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+
 import { isManager } from "@/utils/policies";
 
 type PropsProjectsDetail = {
@@ -16,20 +14,10 @@ type PropsProjectsDetail = {
 export default function ProjectListCard({ project, user }: PropsProjectsDetail) {
 
        
-      const queryClient = useQueryClient();
-        
-      const {mutate} = useMutation({
-        mutationFn: deleteProject,
-        onError: (error)=>{
-          toast.error(error.message);
-        },
-        onSuccess:(data)=>{
-    
-          toast.success(data)
-            queryClient.invalidateQueries({queryKey: ['projects']})
-          
-        }
-      })
+      const navigate = useNavigate()
+      const location = useLocation()
+
+      
 
   return (
     <li
@@ -104,7 +92,7 @@ export default function ProjectListCard({ project, user }: PropsProjectsDetail) 
                 {({ active }) => (
                   <button
                     type="button"
-                    onClick={() => mutate(project._id)}
+                    onClick={() => navigate(location.pathname + `?deleteProject=${project._id}`)}
                     className={`block w-full text-left px-4 py-2 text-sm transition-colors ${
                       active ? "bg-red-50 text-red-600" : "text-red-500"
                     }`}

@@ -1,5 +1,5 @@
 import api from '@/lib/axios'
-import type { ConfirmToken, ForgotPasswordForm, NewPasswordForm, RequestConfirmationCodeForm, UserLoginForm, UserRegistrationForm } from '../types'
+import type { ChecnPasswordForm, ConfirmToken, ForgotPasswordForm, NewPasswordForm, RequestConfirmationCodeForm, UpdatedPasswordUser, UserLoginForm, UserProfileForm, UserRegistrationForm } from '../types'
 import { getErrorMessage } from '@/lib/handleError'
 import  {userSchema} from '@/types/index'
 
@@ -89,6 +89,38 @@ export async function getUser(){
         {
             return response.data
         }
+    } catch (error) {
+        throw new Error(getErrorMessage(error))
+    }
+}
+
+export async function updateProfile({formData} : {formData : UserProfileForm}){
+    try {
+        
+        const {data}  = await api.put<string>('/auth/profile',formData)
+        return data
+    } catch (error) {
+        throw new Error(getErrorMessage(error))
+    }
+}
+
+export async function updatedPasswordProfileForm({formData} : {formData : UpdatedPasswordUser}){
+    try {
+        
+        const {data}  = await api.put<string>('/auth/update-password',formData)
+        return data
+    } catch (error) {
+        throw new Error(getErrorMessage(error))
+    }
+}
+
+
+export async function checkPassword(formData : ChecnPasswordForm){
+
+    try {
+        const {data}  = await api.post<string>('/auth/check-password',formData)
+        return data
+
     } catch (error) {
         throw new Error(getErrorMessage(error))
     }

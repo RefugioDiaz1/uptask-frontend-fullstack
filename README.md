@@ -162,4 +162,10 @@ npm i @chakra-ui/pin-input
 interceptor de axios es una funcion que se ejecuta antes o despues de una peticion de http
 interceptores de respuesta se ejecuta despues de una peticion http, para procesar una respuesta
 
+se instala la dependencias de formularios de tailwind
+npm i @tailwindcss/forms
+
+dnd kit
+para pasar las notas al otro solo arrastrandolo
+npm i @dnd-kit/core
 

@@ -137,7 +137,7 @@ export default function TaskModalDetails() {
 
                                         {data.completedBy.length ? (
                                             <>
-                                                <p className='text-2xl text-slate-500 mb-2'>Historial de Cambios</p>
+                                                <p className='font-bold text-2xl text-slate-600 my-5'>Historial de Cambios</p>
                                         <ul className='list-decimal'>
                                            {data.completedBy.map((activityLog)=>(
 
@@ -153,8 +153,6 @@ export default function TaskModalDetails() {
 
                                         ) : null}
                                         
-                                       
-
                                     <div className='my-5 space-y-3'>
                                         <label className='font-bold'>Estado Actual: </label>
                                         <select
@@ -167,7 +165,8 @@ export default function TaskModalDetails() {
                                         </select>
                                     </div>
 
-                                    <NotesPanel />
+                                    <NotesPanel 
+                                    notes={data.notes}/>
                                 </Dialog.Panel>
                             </Transition.Child>
                         </div>

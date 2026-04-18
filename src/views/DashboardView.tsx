@@ -4,6 +4,7 @@ import {  getProjects } from "@/api/ProjectAPI"
 import ProjectListCard from "@/components/projects/ProjectsListCard"
 import {toast} from 'react-toastify'
 import { useAuth } from "@/hooks/useAuth"
+import DeleteProjectModal from "@/components/projects/DeleteProjectModal"
 
 export default function DashboardView() {
 
@@ -59,6 +60,9 @@ export default function DashboardView() {
         </p>
     )  
   }
+
+  <DeleteProjectModal />
+  
     </>
   )
 }

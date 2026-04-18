@@ -11,7 +11,7 @@ export default function NotFoundPage() {
       <p className="mt-4 text-2xl font-semibold text-gray-800">
         Página no encontrada
       </p>
-
+    
       <p className="mt-2 text-gray-500 max-w-md">
         Lo sentimos, la página que estás buscando no existe o fue movida.
       </p>
